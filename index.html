@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+<meta charset="UTF-8">
+<title>Өрхийн төсөв – Интерактив симуляци</title>
+<style>
+  /* Ерөнхий хэв загвар */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f4f8;
+    padding: 20px;
+  }
+
+  .container {
+    max-width: 500px;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  label {
+    display: block;
+    margin-top: 10px;
+  }
+
+  input[type="number"] {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    font-size: 16px;
+  }
+
+  .result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h2>🏠 Өрхийн төсөв</h2>
+
+  <!-- Орлого оруулах талбар -->
+  <label>💰 Сарын орлого (₮)</label>
+  <input type="number" id="income" value="1000000">
+
+  <!-- Зарлагын талбарууд -->
+  <label>🍚 Хоол хүнс (₮)</label>
+  <input type="number" id="food" value="300000">
+
+  <label>🏠 Байр (₮)</label>
+  <input type="number" id="rent" value="400000">
+
+  <label>🚍 Унаа (₮)</label>
+  <input type="number" id="transport" value="100000">
+
+  <!-- Үлдэгдэл мөнгө -->
+  <div class="result" id="output">Үлдэгдэл мөнгө хараахан тооцогдоогүй байна</div>
+</div>
+
+<script>
+  // Бүх input-уудыг сонгоно
+  const incomeInput = document.getElementById("income");
+  const foodInput = document.getElementById("food");
+  const rentInput = document.getElementById("rent");
+  const transportInput = document.getElementById("transport");
+  const output = document.getElementById("output");
+
+  // input бүрт event listener нэмнэ
+  const inputs = [incomeInput, foodInput, rentInput, transportInput];
+  inputs.forEach(input => {
+    input.addEventListener("input", calculateBalance);
+  });
+
+  // Үлдэгдэл мөнгийг тооцох функц
+  function calculateBalance() {
+    // Орлого болон зарлагуудыг тоон утгаар авна
+    const income = Number(incomeInput.value);
+    const food = Number(foodInput.value);
+    const rent = Number(rentInput.value);
+    const transport = Number(transportInput.value);
+
+    // Нийт зарлага
+    const totalExpense = food + rent + transport;
+
+    // Үлдэгдэл мөнгө
+    const balance = income - totalExpense;
+
+    // Үлдэгдлийн дагуу өнгө, текст гаргах
+    if (balance > 0) {
+      output.style.color = "green";
+      output.innerText = `✅ Үлдэгдэл мөнгө: ${balance.toLocaleString()} ₮`;
+    } else if (balance === 0) {
+      output.style.color = "orange";
+      output.innerText = "⚠️ Орлого ба зарлага тэнцлээ";
+    } else {
+      output.style.color = "red";
+      output.innerText = `❌ Илүү зарцуулсан: ${Math.abs(balance).toLocaleString()} ₮`;
+    }
+  }
+
+  // Анхны тооцоолол
+  calculateBalance();
+</script>
+
+</body>
+</html>
